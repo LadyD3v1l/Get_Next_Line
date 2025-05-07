@@ -49,8 +49,13 @@ char	*get_next_line(int fd)
 	char	*line;
 	static char *bloc;
 
-	if (0 > fd || BUFFER_SIZE <= 0)
+	if (0 > fd || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
+	if (!bloc)
+	{
+		bloc = malloc(1);
+		bloc[0] = '\0';
+	}
 	bloc = read_and_copied(fd, bloc);
 	if (!bloc)
 		return (NULL);
