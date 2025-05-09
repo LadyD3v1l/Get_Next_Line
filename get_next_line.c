@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-char	*bloc_convert_line(char *bloc)
+static char	*bloc_convert_line(char *bloc)
 {
 	int		i;
 	char	*line;
@@ -26,7 +26,7 @@ char	*bloc_convert_line(char *bloc)
 	return (line);
 }
 
-char	*bloc_new_bloc(char *bloc)
+static char	*bloc_new_bloc(char *bloc)
 {
 	int		i;
 	char	*new;
@@ -39,7 +39,7 @@ char	*bloc_new_bloc(char *bloc)
 		free(bloc);
 		return (NULL);
 	}
-	new = ft_substr_line(bloc, i + 1, ft_strlen(bloc + i  + 1));
+	new = ft_substr_line(bloc, i + 1, ft_strlen(bloc + i + 1));
 	free(bloc);
 	return (new);
 }
@@ -49,8 +49,8 @@ char	*get_next_line(int fd)
 	char	*line;
 	static char *bloc;
 
-	if (0 > fd || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (NULL);
+	if (0 == fd || BUFFER_SIZE <= 0)
+	return (NULL);
 	if (!bloc)
 	{
 		bloc = malloc(1);
