@@ -26,9 +26,7 @@ size_t	ft_strlen(const char *str);
 int		ft_strcheck(const char *str, char c);
 char	*ft_strjoin(const char *line, const char *rest);
 char	*read_and_copied(int fd, char *bloc);
-char	*ft_substr_line(const char *bloc, unsigned int start, size_t end);
-char	*bloc_convert_line(char *bloc);
-char	*bloc_new_bloc(char *bloc);
+char	*ft_substr_line(char *bloc, unsigned int start, size_t end);
 char	*get_next_line(int fd);
 
 #endif
