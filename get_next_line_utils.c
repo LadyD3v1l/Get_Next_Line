@@ -38,56 +38,7 @@ int		ft_strcheck(const char *str, char c)
 	return (0);
 }
 
-char	*ft_strjoin(const char *line, const char *rest)
-{
-	size_t	l;
-	char	*bloc;
-
-	if (!line && !rest)
-		return (NULL);
-	if (!line)
-		return ft_substr_line(rest, 0, ft_strlen(rest));
-	if (!rest)
-		return ft_substr_line(line, 0, ft_strlen(line));
-	bloc = malloc(ft_strlen(line) + ft_strlen(rest) + 1);
-	if (!bloc)
-		return (NULL);
-	l = 0;
-	while (*line)
-	{
-		bloc[l] = *line++;
-		l++;
-	}
-	while (*rest)
-	{
-		bloc[l] = *rest++;
-		l++;
-	}
-	bloc[l] = '\0';
-	return (bloc);
-}
-
-char	*read_and_copied(int fd, char *bloc)
-{
-	ssize_t		bytes;
-	char		buffer[BUFFER_SIZE + 1];
-	char		*temp;
-
-	bytes = 1;
-	while (!ft_strcheck(bloc, '\n') && bytes > 0)
-	{
-		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (bytes < 0)
-			return (NULL);
-		buffer[bytes] = '\0';
-		temp = bloc;
-		bloc = ft_strjoin(temp, buffer);
-		free(temp);
-	}
-	return (bloc);
-}
-
-char	*ft_substr_line(const char *bloc, unsigned int start, size_t end)
+char	*ft_substr_line(char *bloc, unsigned int start, size_t end)
 {
 	size_t	i;
 	char	*sub;
@@ -109,4 +60,56 @@ char	*ft_substr_line(const char *bloc, unsigned int start, size_t end)
 	}
 	sub[i] = '\0';
 	return (sub);
+}
+
+char	*ft_strjoin(const char *line, const char *rest)
+{
+	size_t	l;
+	char	*bloc;
+
+	if (!line && !rest)
+		return (NULL);
+	if (!line)
+		return (ft_substr_line((char *)rest, 0, ft_strlen(rest)));
+	if (!rest)
+		return (ft_substr_line((char *)line, 0, ft_strlen(line)));
+	bloc = malloc(ft_strlen(line) + ft_strlen(rest) + 1);
+	if (!bloc)
+		return (NULL);
+	l = 0;
+	while (*line)
+	{
+		bloc[l] = *line++;
+		l++;
+	}
+	while (*rest)
+	{
+		bloc[l] = *rest++;
+		l++;
+	}
+	bloc[l] = '\0';
+	return (bloc);
+}
+ 
+char	*read_and_copied(int fd, char *bloc)
+{
+	ssize_t		bytes;
+	char		buffer[BUFFER_SIZE + 1];
+	char		*temp;
+
+	bytes = 1;
+	while (!ft_strcheck(bloc, '\n') && bytes > 0)
+	{
+		bytes = read(fd, buffer, BUFFER_SIZE);
+		if (bytes < 0)
+		{
+			free(bloc);
+			return (NULL);
+		}
+		buffer[bytes] = '\0';
+		temp = bloc;
+		bloc = ft_strjoin(temp, buffer);
+		free(temp);
+	}
+	return (bloc);
 }
