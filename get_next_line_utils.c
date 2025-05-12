@@ -37,7 +37,6 @@ int	ft_strcheck(const char *str, char c)
 	}
 	return (0);
 }
-
 char	*ft_substr_line(char *bloc, unsigned int start, size_t end)
 {
 	size_t	i;
@@ -48,10 +47,14 @@ char	*ft_substr_line(char *bloc, unsigned int start, size_t end)
 	if (end == 0 || start > ft_strlen(bloc))
 	{
 		sub = malloc(1);
+		if (!sub)
+			return (NULL);
 		sub[0] = '\0';
 		return (sub);
 	}
 	sub = malloc(end + 1);
+	if (!sub)
+		return (NULL);
 	i = 0;
 	while (bloc[i + start] && i < end && start < ft_strlen(bloc))
 	{
